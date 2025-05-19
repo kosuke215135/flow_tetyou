@@ -1,0 +1,7 @@
+CREATE TABLE notes (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id VARCHAR(255) NOT NULL,
+    created_at DATE NOT NULL,
+    text LONGTEXT NOT NULL,
+    PRIMARY KEY (id)
+);
