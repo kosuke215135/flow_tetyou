@@ -22,7 +22,7 @@ const Editor = ({ onPost }: Props) => {
   const { handleSubmit, setValue } = useForm();
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({ codeBlock: false }),
+      StarterKit,
       TaskItem.configure({ nested: true }),
       TaskList,
       Link.configure({ openOnClick: true }),
@@ -63,13 +63,13 @@ const Editor = ({ onPost }: Props) => {
 
   return (
     <form onSubmit={handleSubmit(submit)}>
-      <div className="editor">
-          <RichEditorToolbar editor={editor} />
-          <div>
-              <EditorContent editor={editor} />
+      <div className="editor-wrapper">
+          <EditorContent editor={editor} className="editor"/>
+          <div className="editor-footer">
+            <RichEditorToolbar editor={editor} />
+            <button className="submit-button">記録</button>
           </div>
       </div>
-          <button className="button button--primary">送信</button>
     </form>
   );
 };

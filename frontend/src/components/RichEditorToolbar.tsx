@@ -42,7 +42,7 @@ const RichEditorToolbar = ({ editor }: { editor: Editor }) => {
         type="button"
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         className={
-          !editor.isActive("heading", { level: 1 }) ? "opacity-20" : ""
+          !editor.isActive("heading", { level: 1 }) ? "not-use-opacity" : ""
         }
       >
         <MdTitle />
@@ -50,56 +50,56 @@ const RichEditorToolbar = ({ editor }: { editor: Editor }) => {
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBold().run()}
-        className={!editor.isActive("bold") ? "opacity-20" : ""}
+        className={!editor.isActive("bold") ? "not-use-opacity" : ""}
       >
         <MdFormatBold />
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleStrike().run()}
-        className={!editor.isActive("strike") ? "opacity-20" : ""}
+        className={!editor.isActive("strike") ? "not-use-opacity" : ""}
       >
         <MdFormatStrikethrough />
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleTaskList().run()}
-        className={!editor.isActive("taskList") ? "opacity-20" : ""}
+        className={!editor.isActive("taskList") ? "not-use-opacity" : ""}
       >
         <MdTaskAlt />
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        className={!editor.isActive("codeBlock") ? "opacity-20" : ""}
+        className={!editor.isActive("codeBlock") ? "not-use-opacity" : ""}
       >
         <MdCode />
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={!editor.isActive("bulletList") ? "opacity-20" : ""}
+        className={!editor.isActive("bulletList") ? "not-use-opacity" : ""}
       >
         <MdFormatListBulleted />
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={!editor.isActive("orderedList") ? "opacity-20" : ""}
+        className={!editor.isActive("orderedList") ? "not-use-opacity" : ""}
       >
         <MdFormatListNumbered />
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        className={!editor.isActive("blockquote") ? "opacity-20" : ""}
+        className={!editor.isActive("blockquote") ? "not-use-opacity" : ""}
       >
         <MdFormatQuote />
       </button>
       <button
         type="button"
         onClick={setLink}
-        className={!editor.isActive("link") ? "opacity-20" : ""}
+        className={!editor.isActive("link") ? "not-use-opacity" : ""}
       >
         <AiOutlineLink />
       </button>
