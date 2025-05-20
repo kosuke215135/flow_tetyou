@@ -74,6 +74,13 @@
 
   .submit-button {
     width: 20%;
+    background-color: #96D5FF;
+    color: white;
+    font-weight: bold;
+
+    &:hover{
+      background-color: #56BBFF; 
+    }
   }
 
   button {
