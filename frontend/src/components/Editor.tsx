@@ -50,11 +50,11 @@ const Editor = ({ onPost }: Props) => {
   const submit = async (data: any) => {
       const text = JSON.stringify(data)
       try {
-          const response = await axios.post("/api/note", {
-              text,
-          });
+          await axios.post("/api/note", {text});
           onPost();
-          alert(`サーバからのメッセージ: ${response.data.message}`)
+          if (editor) {
+            editor.chain().focus().clearContent().run();
+          }
       } catch (error) {
           console.error("送信エラー:", error);
           alert("エラーが発生しました");
