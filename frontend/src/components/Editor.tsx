@@ -9,7 +9,12 @@ import Placeholder from '@tiptap/extension-placeholder';
 import RichEditorToolbar from "./RichEditorToolbar";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { getUserInfo } from '../services/getUserInfo';
+import type { User } from '../types/user';
 
+
+// Cookieの設定
+axios.defaults.withCredentials = true
 
 const lowlight = createLowlight(all)
 
@@ -50,11 +55,13 @@ const Editor = ({ onPost }: Props) => {
   const submit = async (data: any) => {
       const text = JSON.stringify(data)
       try {
-          const response = await axios.post("/api/note", {
-              text,
-          });
+          const user: User = await getUserInfo();
+          const userId: string = user.id;
+          await axios.post("/api/note", {userId, text});
           onPost();
-          alert(`サーバからのメッセージ: ${response.data.message}`)
+          if (editor) {
+            editor.chain().focus().clearContent().run();
+          }
       } catch (error) {
           console.error("送信エラー:", error);
           alert("エラーが発生しました");
