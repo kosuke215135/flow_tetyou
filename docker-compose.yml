@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    env_file:
+      - ./backend/.env
+    container_name: flow_tetyou_backend
+    restart: always
+    networks:
+      - flow_tetyou_network
+
+  nginx:
+    build: 
+      context: . # プロジェクトルートをコンテキストにする
+      dockerfile: nginx/Dockerfile
+    container_name: flow_tetyou_nginx
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - flow_tetyou_network
+
+networks:
+  flow_tetyou_network:
+    driver: bridge

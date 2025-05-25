@@ -2,25 +2,21 @@ import express from 'express';
 import pool from './db';
 import { RowDataPacket, FieldPacket } from 'mysql2/promise';
 import { Request, Response } from "express";
-import dotenv from 'dotenv';
-import path from 'path';
 import { auth, requiresAuth } from "express-openid-connect"
 import { UserinfoResponse } from 'openid-client';
 import cors from 'cors';
-
-dotenv.config();
-const envPath = path.resolve(__dirname, '../.env.development');
-dotenv.config({ path: envPath });
-
 
 const app = express();
 app.use(express.json()); // JSONをパースする
 
 const PORT = 4000;
 
+// プロキシを信頼する設定
+app.set('trust proxy', 1);
+
 // CROSの設定
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.FRONT_URL,
     credentials: true,
     optionsSuccessStatus: 200
 }))
@@ -29,6 +25,7 @@ app.use(cors({
 app.use(
   auth({
     authRequired: false,
+    // auth0Logout: true,
     secret: process.env.RANDOM_STRING,
     issuerBaseURL: process.env.GOOGLE_ISSUER_BASE_URL,
     baseURL: process.env.BASE_URL,
@@ -40,7 +37,7 @@ app.use(
     },
     routes: {
       callback: '/callback',
-      postLogoutRedirect: 'http://localhost:5173/',
+      postLogoutRedirect: process.env.FRONT_URL,
     },
     session: {
       cookie: {
@@ -57,9 +54,11 @@ app.get('/', async (req, res) => {
     if (!result) { // ユーザー登録されていない場合
       await userRegistration(req.oidc.user as UserinfoResponse);
     }
-    res.redirect('http://localhost:5173/home');
+    const homeUrl:string = process.env.FRONT_URL + "/home";
+    res.redirect(homeUrl);
   } else {
-    res.redirect('/login'); 
+    const loginUrl:string = process.env.FRONT_URL + "/login";
+    res.redirect(loginUrl); 
   }
 });
 

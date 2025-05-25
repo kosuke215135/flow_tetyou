@@ -7,7 +7,7 @@ import Home from './components/HomePage'
 import LoginPage from './components/LoginPage';
 
 axios.defaults.withCredentials = true
-const API_BASE_URL = "http://localhost:4000"
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function App() {
   const [authState, setAuthState] = useState<AuthState>({
