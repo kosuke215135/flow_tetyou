@@ -88,3 +88,133 @@
    border: 0.1rem solid #ccc;
   }
 }
+
+$header-height: 70px;
+$header-padding-x: 25px;
+$background-color: #ffffff;
+$border-color: #e9ecef;
+$text-color: #343a40;
+$subtle-text-color: #6c757d;
+$button-bg: #f8f9fa;
+$button-border: #ccc;
+$button-text: #333;
+$button-hover-bg: #e2e6ea;
+$avatar-size: 38px;
+$spacing: 15px;
+$max-width: 1200px;
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  height: $header-height;
+  background-color: $background-color;
+  border-bottom: 1px solid $border-color;
+  padding: 0 $header-padding-x;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .header-left {
+    .logo {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: $text-color;
+      text-decoration: none;
+      white-space: nowrap; // ロゴが改行しないように
+      &:hover { opacity: 0.8; }
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: $spacing;
+    flex-shrink: 0; // 右側が縮まないように
+
+    .user-avatar {
+      width: $avatar-size;
+      height: $avatar-size;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .header-element {
+      color: $text-color;
+      font-size: 0.9rem;
+      white-space: nowrap; // 各要素が改行しないように
+    }
+
+    .user-name {
+      font-weight: 600;
+    }
+    .user-email {
+      color: $subtle-text-color;
+      font-size: 0.85rem;
+    }
+
+    .logout-button {
+      background-color: $button-bg;
+      border: 1px solid $button-border;
+      padding: 6px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      white-space: nowrap; // ボタン内のテキストも改行しない
+      transition: background-color 0.2s ease;
+      
+      &:hover {
+        background-color: $button-hover-bg;
+      }
+    }
+  }
+}
+
+// --- ★ メディアクエリによるレスポンシブ対応 ★ ---
+
+// 768px以下 (タブレットサイズなど)
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0 15px; // パディングを少し狭く
+
+    .header-right {
+      gap: 10px; // 要素間のスペースを狭く
+
+      .user-email {
+        display: none; // ★ メールアドレスを非表示にする
+      }
+    }
+  }
+}
+
+// 480px以下 (スマートフォンサイズなど)
+@media (max-width: 480px) {
+  .app-header {
+    .header-left {
+      .logo {
+        font-size: 1.3rem; // ロゴをさらに小さく
+      }
+    }
+
+    .header-right {
+      gap: 8px; // さらにスペースを狭く
+
+      .user-name {
+        display: none; // ★ ユーザー名も非表示にする
+      }
+
+      .logout-button {
+        padding: 5px 10px; // ボタンを小さく
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+// --- メインコンテンツのパディング ---
+.main-content-area {
+  padding-top: $header-height; 
+}

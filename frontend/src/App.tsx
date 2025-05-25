@@ -48,8 +48,11 @@ function App() {
         )
       } />
       <Route path="/home" element={
-        <Home />
-      } />
+        authState.isAuthenticated ? (
+          <Home />
+        ) : (
+          <Navigate to="/login" replace />
+        )} />
       <Route path="/login" element={
         authState.isAuthenticated ? (
           <Navigate to="/home" replace />

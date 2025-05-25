@@ -1,8 +1,7 @@
-// src/components/LoginPage.tsx
 import React from 'react';
 
 // バックエンドAPIのベースURL
-const API_BASE_URL: string = "http://localhost:4000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 interface LoginPageProps {
   // express-openid-connect を使う場合、このコンポーネントから直接認証状態を

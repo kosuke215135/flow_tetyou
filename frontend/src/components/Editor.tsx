@@ -9,7 +9,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import RichEditorToolbar from "./RichEditorToolbar";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { getUserInfo } from '../services/getUserInfo';
+import { getUserInfo } from '../services/getAuthInfo';
 import type { User } from '../types/user';
 
 

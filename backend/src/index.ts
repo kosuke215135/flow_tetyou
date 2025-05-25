@@ -40,7 +40,7 @@ app.use(
     },
     routes: {
       callback: '/callback',
-      postLogoutRedirect: 'http://localhost:5173/home',
+      postLogoutRedirect: 'http://localhost:5173/',
     },
     session: {
       cookie: {
@@ -65,7 +65,8 @@ app.get('/', async (req, res) => {
 
 const alreadyRegistered = async (user: UserinfoResponse) => {
   const sql = "SELECT 1 FROM users WHERE id=? LIMIT 1"; // idに一致するものを見つけて1を返す。
-  const [result]: [RowDataPacket[], FieldPacket[]] = await pool.query(sql, [user.sub]);
+  const userId = process.env.GOOGLE_PREFIX + user.sub;
+  const [result]: [RowDataPacket[], FieldPacket[]] = await pool.query(sql, [userId]);
 
   return result.length > 0; // 1のときはすでに登録されている
 };
