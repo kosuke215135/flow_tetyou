@@ -1,0 +1,32 @@
+# 本番環境のyamlファイル
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    env_file:
+      - ./backend/.env
+    container_name: flow_tetyou_backend
+    restart: always
+    networks:
+      - flow_tetyou_network
+
+  nginx:
+    build: 
+      context: . # プロジェクトルートをコンテキストにする
+      dockerfile: nginx/Dockerfile.prod
+    container_name: flow_tetyou_nginx
+    restart: always
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+    networks:
+      - flow_tetyou_network
+
+networks:
+  flow_tetyou_network:
+    driver: bridge

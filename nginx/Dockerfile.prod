@@ -1,0 +1,18 @@
+# ステージ 1: フロントエンドをビルド
+FROM node:18-alpine AS frontend_builder
+WORKDIR /app/frontend
+COPY frontend/package*.json ./
+RUN npm install
+COPY frontend/ .
+RUN npm run build
+
+# ステージ 2: Nginx を設定
+FROM nginx:1.25-alpine
+# Nginx 設定ファイルをコピー
+COPY nginx/default.conf.prod /etc/nginx/conf.d/default.conf
+# フロントエンドのビルド結果をコピー
+COPY --from=frontend_builder /app/frontend/dist /usr/share/nginx/html
+# ポートを開放
+EXPOSE 80
+# Nginx を起動
+CMD ["nginx", "-g", "daemon off;"]
