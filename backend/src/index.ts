@@ -10,6 +10,7 @@ const app = express();
 app.use(express.json()); // JSONをパースする
 
 const PORT = 4000;
+const useSecureCookie = process.env.IS_HTTPS === 'true';
 
 // プロキシを信頼する設定
 app.set('trust proxy', 1);
@@ -41,7 +42,7 @@ app.use(
     },
     session: {
       cookie: {
-          secure: false, // HTTP環境でのみ false に設定
+          secure: useSecureCookie, // HTTP環境でのみ false に設定
         }
     },
   })
