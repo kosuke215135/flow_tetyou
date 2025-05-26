@@ -48,20 +48,20 @@ app.use(
   })
 );
 
-app.get('/', async (req, res) => {
-  if (req.oidc.isAuthenticated()) {
-    console.log(req.oidc.user);
-    const result:boolean = await alreadyRegistered(req.oidc.user as UserinfoResponse);
-    if (!result) { // ユーザー登録されていない場合
-      await userRegistration(req.oidc.user as UserinfoResponse);
-    }
-    const homeUrl:string = process.env.FRONT_URL + "/home";
-    res.redirect(homeUrl);
-  } else {
-    const loginUrl:string = process.env.FRONT_URL + "/login";
-    res.redirect(loginUrl); 
-  }
-});
+// app.get('/api', async (req, res) => {
+//   if (req.oidc.isAuthenticated()) {
+//     console.log(req.oidc.user);
+//     const result:boolean = await alreadyRegistered(req.oidc.user as UserinfoResponse);
+//     if (!result) { // ユーザー登録されていない場合
+//       await userRegistration(req.oidc.user as UserinfoResponse);
+//     }
+//     const homeUrl:string = process.env.FRONT_URL + "/home";
+//     res.redirect(homeUrl);
+//   } else {
+//     const loginUrl:string = process.env.FRONT_URL + "/login";
+//     res.redirect(loginUrl); 
+//   }
+// });
 
 const alreadyRegistered = async (user: UserinfoResponse) => {
   const sql = "SELECT 1 FROM users WHERE id=? LIMIT 1"; // idに一致するものを見つけて1を返す。
@@ -78,13 +78,20 @@ const userRegistration = async (user: UserinfoResponse) => {
 };
 
 // 現在の認証状態を返すAPI (フロントエンドで利用)
-app.get('/api/me', (req: Request, res: Response) => {
-  console.log('--- /api/me Route ---');
-  if (req.oidc.isAuthenticated()) {
-    res.json({ isAuthenticated: true, user: req.oidc.user });
-  } else {
-    console.log('Session in /api/me:', (req as any).session);
-    res.status(401).json({ isAuthenticated: false, message: "Not authenticated in /api/me" });
+app.get('/api/me', requiresAuth(), async (req: Request, res: Response) => {
+  try {
+    if (req.oidc.user) { // requiresAuth() を通っていれば user は存在するはず
+      const isRegistered = await alreadyRegistered(req.oidc.user as UserinfoResponse);
+      if (!isRegistered) {
+        await userRegistration(req.oidc.user as UserinfoResponse);
+      }
+      res.json({ isAuthenticated: true, user: req.oidc.user });
+    } else {
+      // この分岐は requiresAuth() があれば通常は通らない
+      res.status(401).json({ isAuthenticated: false, message: "Not authenticated" });
+    }
+  } catch (error) {
+    console.error("Error in /api/me:", error);
   }
 });
 
