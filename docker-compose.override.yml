@@ -8,6 +8,8 @@ services:
       - ./backend/.env
     container_name: flow_tetyou_backend
     restart: always
+    extra_hosts: # コンテナからホストマシンにアクセスするための設定
+      - "host.docker.internal:host-gateway"
     networks:
       - flow_tetyou_network
 
