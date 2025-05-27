@@ -9,6 +9,8 @@
 ## 概要
 FlowTetyouは、日々頭に浮かぶアイデア、タスク、感情などの「フロー情報」を、素早く、気軽に書き留めるためのWebアプリケーションです。XやSlackのようなSNSではなく、純粋に自分の思考を整理し、一時的に置いておく場所を提供します。
 
+![FlowTetyou Demo](https://github.com/user-attachments/assets/26f38ea4-c0d3-4d38-ac9e-dc4ac0f817aa)
+
 ## 機能一覧
 - 実装済みの機能
     - markdown風のリッチエディタで記入可能
